@@ -1,7 +1,58 @@
 # DKFZ UNITE
+Welcome to the DKFZ UNITE organization on GitHub.
+
+UNITE is platform for integration and analysis of different types of biomedical data.
+
+## Data
+The following data types are currently supported:
+
+- Patient data
+    - Donors - general patient data including projects and studies the patient is part of
+    - Clinical data
+    - Treatments data
+- Images data - metadata of images (not the images themselves)
+    - MRI images
+- Specimens data - donor specimens data and specimens chierarchy
+    - Tissues - All types of donor derived specimens
+        - Molecular data
+    - Cell lines
+        - Molecular data
+        - Drugs screening data
+    - Organoids
+        - Molecular data
+        - Drugs screening data
+        - Interventions data
+    - Xenografts
+        - Molecular data
+        - Drugs screening data
+        - Interventions data
+- Genome data
+    - Variants - SSMs, CNVs, SVs
+    - Bulk gene expressions data
+
+
+## Functionality
+The core functionality of the platform is following:
+
+- Data submission - data can be submitted in different formats via web interface or API
+- Data validation - data is validated before it is stored in the database
+- Data storage - data is standardized, integrated and stored in central database in structured form
+- Data annotation - data is annotated using different tools (e.g. Ensembl VEP, Ensembl Database)
+- Data indexing - data is indexed for fast search and retrieval
+- Web interface - data can be accessed via web interface
+    - Cross reference search
+    - Cohorts management tools
+    - Vizualization tools
+    - Data export tools
+- Identity management
+    - Different identity providers (Integrated or LDAP)
+    - Users management - access to data is restricted to users in allow list with different permissions
+    - Workers management - access to data can be granted to external services (e.g. for automatic data submission or data analysis)
+    - Authentication/Authorization - access to data is restricted to authenticated users/workers
+- Docker integration - all components are dockerized and can be deployed on any supported platform
+
 
 <!--
-
 **Here are some ideas to get you started:**
 
 🙋‍♀️ A short introduction - what is your organization all about?
