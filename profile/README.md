@@ -53,7 +53,7 @@ The core functionality of the platform is following:
 
 ## Further reading
 - [Installation](https://github.com/dkfz-unite/unite-environment) - installation instructions
-- [Architecture](architecture.md) - architecture of the platform and its components
+- [Architecture](https://github.com/dkfz-unite/.github/blob/main/profile/architecture.md) - architecture of the platform and its components
 <!-- - [Data structure](data-structure.md) - data structure of the platform
 - [Index structure](index-structure.md) - index structure of the platform -->
 
