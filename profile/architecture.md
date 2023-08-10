@@ -21,4 +21,6 @@ The platform is build from multiple components which communicate with each other
 - Identity - identity management and authentication service API
 - Portal - web interface
 
+### Diagram
+Architecture diagram of the platform and its components.
 ![Architecture](images/architecture.svg "Architecture")
