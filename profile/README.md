@@ -51,6 +51,12 @@ The core functionality of the platform is following:
     - Authentication/Authorization - access to data is restricted to authenticated users/workers
 - Docker integration - all components are dockerized and can be deployed on any supported platform
 
+## Further reading
+- [Installation](https://github.com/dkfz-unite/unite-environment) - installation instructions
+- [Architecture](architecture.md) - architecture of the platform and its components
+<!-- - [Data structure](data-structure.md) - data structure of the platform
+- [Index structure](index-structure.md) - index structure of the platform -->
+
 
 <!--
 **Here are some ideas to get you started:**
