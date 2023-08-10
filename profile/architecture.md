@@ -11,15 +11,15 @@ The platform is build from multiple components which communicate with each other
 - [Elasticsearch](https://www.elastic.co/) - data index storage an dsearch engine
 
 ### Application Components
-- Ensembl Data - customized installation of Ensembl database
-- Ensembl VEP - customized installation of Ensembl variant effect predictor (VEP)
-- Donors Feed - donors data submission API and indexing service
-- Images Feed - images data submission API and indexing service
-- Specimens Feed - specimens data submission API and indexing service
-- Genome Feed - genome data submission API and indexing service
-- Composer - data access and search service API
-- Identity - identity management and authentication service API
-- Portal - web interface
+- [Ensembl Data](https://github.com/dkfz-unite/unite-ensembl-data) - customized installation of Ensembl database
+- [Ensembl VEP](https://github.com/dkfz-unite/unite-ensembl-vep) - customized installation of Ensembl variant effect predictor (VEP)
+- [Donors Feed](https://github.com/dkfz-unite/unite-donors-feed) - donors data submission API and indexing service
+- [Images Feed](https://github.com/dkfz-unite/unite-images-feed) - images data submission API and indexing service
+- [Specimens Feed](https://github.com/dkfz-unite/unite-specimens-feed) - specimens data submission API and indexing service
+- [Genome Feed](https://github.com/dkfz-unite/unite-genome-feed) - genome data submission API and indexing service
+- [Composer](https://github.com/dkfz-unite/unite-composer) - data access and search service API
+- [Identity](https://github.com/dkfz-unite/unite-identity) - identity management and authentication service API
+- [Portal](https://github.com/dkfz-unite/unite) - web interface
 
 ### Diagram
 Architecture diagram of the platform and its components.
