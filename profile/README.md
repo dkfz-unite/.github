@@ -49,6 +49,8 @@ The core functionality of the platform is following:
     - Users management - access to data is restricted to users in allow list with different permissions
     - Workers management - access to data can be granted to external services (e.g. for automatic data submission or data analysis)
     - Authentication/Authorization - access to data is restricted to authenticated users/workers
+- Analysis
+    - Differential expression analysis (DESeq2)
 - Docker integration - all components are dockerized and can be deployed on any supported platform
 
 ## Further reading
