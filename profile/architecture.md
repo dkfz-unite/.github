@@ -19,6 +19,7 @@ The platform is build from multiple components which communicate with each other
 - [Genome Feed](https://github.com/dkfz-unite/unite-genome-feed) - genome data submission API and indexing service
 - [Identity](https://github.com/dkfz-unite/unite-identity) - identity management and authentication service API
 - [Composer](https://github.com/dkfz-unite/unite-composer) - data access and search service API
+- [Analysis](https://github.com/dkfz-unite/unite-analysis) - analysis service API
 - [Portal](https://github.com/dkfz-unite/unite) - web interface
 
 ### Diagram
