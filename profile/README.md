@@ -13,7 +13,7 @@ The following data types are currently supported:
 - Images data - metadata of images (not the images themselves)
     - MRI images
 - Specimens data - donor specimens data and specimens chierarchy
-    - Tissues - All types of donor derived specimens
+    - Materials - All types of donor derived specimens
         - Molecular data
     - Cell lines
         - Molecular data
