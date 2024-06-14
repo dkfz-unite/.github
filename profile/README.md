@@ -42,7 +42,7 @@ The core functionality of the platform is following:
 - Data indexing - data is indexed for fast search and retrieval
 - Web interface - data can be accessed via web interface
     - Cross reference search
-    - Cohorts management tools
+    - Dataset management tools
     - Vizualization tools
     - Data export tools
 - Identity management
