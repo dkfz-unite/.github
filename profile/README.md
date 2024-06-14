@@ -17,15 +17,16 @@ The following data types are currently supported:
         - Molecular data
     - Cell lines
         - Molecular data
+        - Interventions data
         - Drugs screening data
     - Organoids
         - Molecular data
-        - Drugs screening data
         - Interventions data
+        - Drugs screening data
     - Xenografts
         - Molecular data
-        - Drugs screening data
         - Interventions data
+        - Drugs screening data
 - Genome data
     - Variants - SSMs, CNVs, SVs
     - Bulk gene expressions data
