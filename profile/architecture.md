@@ -1,5 +1,5 @@
 # Architecture
-The platform is build from multiple components which communicate with each other via REST API.
+The platform is build from multiple components which communicate with each other over REST API.
 
 ### Environment
 [Docker](https://www.docker.com/) is used to deploy the platform. Each component is a separate docker container. To locate each other, containers share a common docker network.
@@ -23,5 +23,5 @@ The platform is build from multiple components which communicate with each other
 - [Portal](https://github.com/dkfz-unite/unite) - web interface
 
 ### Diagram
-Architecture diagram of the platform and its components.
+The following diagram shows architecture of the platform and its components.
 ![Architecture](images/architecture.svg "Architecture")

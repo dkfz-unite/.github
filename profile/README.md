@@ -3,7 +3,7 @@ Welcome to the DKFZ UNITE organization on GitHub.
 
 UNITE is platform for integration and analysis of different types of biomedical data.
 
-## Data
+## Data Types
 The following data types are currently supported:
 
 - Patient data
@@ -11,25 +11,17 @@ The following data types are currently supported:
     - Clinical data
     - Treatments data
 - Images data - metadata of images (not the images themselves)
-    - MRI images
-- Specimens data - donor specimens data and specimens chierarchy
-    - Materials - All types of donor derived specimens
-        - Molecular data
-    - Cell lines
-        - Molecular data
-        - Interventions data
-        - Drugs screening data
-    - Organoids
-        - Molecular data
-        - Interventions data
-        - Drugs screening data
-    - Xenografts
-        - Molecular data
-        - Interventions data
-        - Drugs screening data
+    - Images data of different types (MRI)
+    - Radiomics features data
+- Specimens data - donor specimens data and specimens hierarchy
+    - Specimens of differen types (Material, Line, Organoid, Xenograft)
+    - Molecular data
+    - Interventions data
+    - Drugs screening data
 - Genome data
     - Variants - SSMs, CNVs, SVs
     - Bulk gene expressions data
+    - Single cell gene expression data
 
 
 ## Functionality
@@ -56,9 +48,9 @@ The core functionality of the platform is following:
 
 ## Further reading
 - [Installation](https://github.com/dkfz-unite/unite-environment) - installation instructions
-- [Architecture](https://github.com/dkfz-unite/.github/blob/main/profile/architecture.md) - architecture of the platform and its components
-<!-- - [Data structure](data-structure.md) - data structure of the platform
-- [Index structure](index-structure.md) - index structure of the platform -->
+- [Architecture](./architecture.md) - architecture of the platform and its components
+- [Data structure](./data-structure.md) - data structure of the platform
+<!-- - [Index structure](index-structure.md) - index structure of the platform -->
 
 
 <!--
