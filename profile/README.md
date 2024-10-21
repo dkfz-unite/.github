@@ -43,7 +43,9 @@ The core functionality of the platform is following:
     - Workers management - access to data can be granted to external services (e.g. for automatic data submission or data analysis)
     - Authentication/Authorization - access to data is restricted to authenticated users/workers
 - Analysis
-    - Differential expression analysis (DESeq2)
+    - Bulk RNA differential expression analysis (DESeq2)
+    - Single cell RNA dataset creation analysis.
+    - Donors survival estimation analysis (Kaplan-Meier).
 - Docker integration - all components are dockerized and can be deployed on any supported platform
 
 ## Further reading
