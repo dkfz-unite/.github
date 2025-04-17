@@ -11,7 +11,7 @@ The following data types are currently supported:
     - Clinical data
     - Treatments data
 - Images data - metadata of images (not the images themselves)
-    - Images data of different types (MRI)
+    - Images data of different types (MR)
     - Radiomics features data
 - Specimens data - donor specimens data and specimens hierarchy
     - Specimens of differen types (Material, Line, Organoid, Xenograft)
@@ -19,7 +19,8 @@ The following data types are currently supported:
     - Interventions data
     - Drugs screening data
 - Genome data
-    - Variants - SSMs, CNVs, SVs
+    - Variants - SMs, CNVs, SVs
+    - Methylation data
     - Bulk gene expressions data
     - Single cell gene expression data
 
@@ -46,6 +47,7 @@ The core functionality of the platform is following:
     - Bulk RNA differential expression analysis (DESeq2)
     - Single cell RNA dataset creation analysis.
     - Donors survival estimation analysis (Kaplan-Meier).
+    - Differential methylation analysis (Minfi).
 - Docker integration - all components are dockerized and can be deployed on any supported platform
 
 ## Further reading
