@@ -13,10 +13,10 @@ The platform is build from multiple components which communicate with each other
 ### Application Components
 - [Ensembl Data](https://github.com/dkfz-unite/unite-ensembl-data) - customized installation of Ensembl database
 - [Ensembl VEP](https://github.com/dkfz-unite/unite-ensembl-vep) - customized installation of Ensembl variant effect predictor (VEP)
-- [Donors Feed](https://github.com/dkfz-unite/unite-donors-feed) - donors data submission API and indexing service
-- [Images Feed](https://github.com/dkfz-unite/unite-images-feed) - images data submission API and indexing service
-- [Specimens Feed](https://github.com/dkfz-unite/unite-specimens-feed) - specimens data submission API and indexing service
-- [Genome Feed](https://github.com/dkfz-unite/unite-genome-feed) - genome data submission API and indexing service
+- [Donors Feed](https://github.com/dkfz-unite/unite-feed-donors) - donors data submission API and indexing service
+- [Images Feed](https://github.com/dkfz-unite/unite-feed-images) - images data submission API and indexing service
+- [Specimens Feed](https://github.com/dkfz-unite/unite-feed-specimens) - specimens data submission API and indexing service
+- [Genome Feed](https://github.com/dkfz-unite/unite-feed-genome) - genome data submission API and indexing service
 - [Identity](https://github.com/dkfz-unite/unite-identity) - identity management and authentication service API
 - [Composer](https://github.com/dkfz-unite/unite-composer) - data access and search service API
 - [Analysis](https://github.com/dkfz-unite/unite-analysis) - analysis service API
