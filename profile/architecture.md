@@ -16,7 +16,7 @@ The platform is build from multiple components which communicate with each other
 - [Donors Feed](https://github.com/dkfz-unite/unite-feed-donors) - donors data submission API and indexing service
 - [Images Feed](https://github.com/dkfz-unite/unite-feed-images) - images data submission API and indexing service
 - [Specimens Feed](https://github.com/dkfz-unite/unite-feed-specimens) - specimens data submission API and indexing service
-- [Genome Feed](https://github.com/dkfz-unite/unite-feed-genome) - genome data submission API and indexing service
+- [Omics Feed](https://github.com/dkfz-unite/unite-feed-omics) - omics data submission API and indexing service
 - [Identity](https://github.com/dkfz-unite/unite-identity) - identity management and authentication service API
 - [Composer](https://github.com/dkfz-unite/unite-composer) - data access and search service API
 - [Analysis](https://github.com/dkfz-unite/unite-analysis) - analysis service API
