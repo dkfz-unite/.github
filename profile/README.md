@@ -48,6 +48,7 @@ The core functionality of the platform is following:
     - Single cell RNA dataset creation analysis.
     - Donors survival estimation analysis (Kaplan-Meier).
     - Differential methylation analysis (Minfi).
+    - Methylation principal component analysis (Minfi).
 - Docker integration - all components are dockerized and can be deployed on any supported platform
 
 ## Further reading
