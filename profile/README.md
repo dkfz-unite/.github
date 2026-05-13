@@ -14,15 +14,18 @@ The following data types are currently supported:
     - Images data of different types (MR)
     - Radiomics features data
 - Specimens data - donor specimens data and specimens hierarchy
-    - Specimens of differen types (Material, Line, Organoid, Xenograft)
+    - Specimens of different types (Material, Line, Organoid, Xenograft)
     - Molecular data
+    - Tumor classification data
     - Interventions data
     - Drugs screening data
 - Genome data
     - Variants - SMs, CNVs, SVs
+    - CNV profiles
     - Methylation data
-    - Bulk gene expressions data
+    - Gene expressions data
     - Single cell gene expression data
+    - Protein expressions data
 
 
 ## Functionality
@@ -44,11 +47,14 @@ The core functionality of the platform is following:
     - Workers management - access to data can be granted to external services (e.g. for automatic data submission or data analysis)
     - Authentication/Authorization - access to data is restricted to authenticated users/workers
 - Analysis
-    - Bulk RNA differential expression analysis (DESeq2)
-    - Single cell RNA dataset creation analysis.
-    - Donors survival estimation analysis (Kaplan-Meier).
-    - Differential methylation analysis (Minfi).
-    - Methylation principal component analysis (Minfi).
+    - Differential gene expression (DESeq2)
+    - Differential protein expression (Limma)
+    - UMAP of protein expression profiles (Limma)
+    - Differential methylation (Minfi)
+    - PCA of methylation profiles (Minfi)
+    - Donors survival/progression curve estimation (Kaplan-Meier)
+    - Single cell RNA dataset creation workflow
+    - Gene aleration frequency (Oncogrid)
 - Docker integration - all components are dockerized and can be deployed on any supported platform
 
 ## Further reading
