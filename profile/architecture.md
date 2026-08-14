@@ -25,3 +25,4 @@ The platform is build from multiple components which communicate with each other
 ### Diagram
 The following diagram shows architecture of the platform and its components.
 ![Architecture](images/architecture.svg "Architecture")
+
