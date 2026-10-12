@@ -153,10 +153,9 @@ Selected implementation details:
   to 90. Non-root users whose `LastActive` predates the cutoff are selected for
   account cleanup. Do not interpret this as a separate 90-day TTL for every
   analysis or dataset.
-- **Configuration conflict:** unite-env's root `.env` labels this value as
-  months and sets `3` (commit `1bb7542`, 2026-10-06), and Identity's Compose
-  passes it through. A standard deployment therefore deletes inactive non-root
-  accounts after 3 days. Reported to the owner 2026-10-07; resolution pending.
+- unite-env's root `.env` sets it to `90` days and Identity's Compose passes
+  it through. Until 2026-10-12 it was labeled as months and set to `3`, so
+  deployments with that `.env` deleted inactive accounts after 3 days.
 - `AccountService.Delete` invokes user-data cleanup before deleting the user.
   Inactive-account cleanup calls that same account-deletion method.
 - `UserDataService` removes the user's Mongo dataset/analysis records and
