@@ -27,6 +27,7 @@ Continue with the documents relevant to the task below.
 | Change SQL models, mappings, or migrations | [SQL migrations](docs/sql-migrations.md) |
 | Integrate a new data type (modality, result kind) end to end | [Integrating a new data type](docs/integrating-a-data-type.md) |
 | Find repositories, packages, dependencies, or draft components | [Repository map](docs/repository-map.md) |
+| Write or review code (style, naming, principles) | [Code style and principles](docs/code-style.md) |
 | Decide how to verify a change | [Development validation](docs/development-validation.md) |
 | Look up or record confirmed defects | Private Jira, see [Track defects](AGENTS.md#track-defects) |
 | Connect a repository or teammate to shared instructions | [Shared documentation setup](docs/shared-documentation.md) |

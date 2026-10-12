@@ -74,6 +74,8 @@ relative to this repository, even when working in a sibling checkout.
 
 ## Coding conventions
 
+Follow [Code style and principles](docs/code-style.md) for new and changed code.
+
 - Normalize text identifiers and references to lowercase wherever possible
   (for example resource names, formats and URLs in submission models), and
   work only with lowercase values in code. This is deliberate: UNITE does not
