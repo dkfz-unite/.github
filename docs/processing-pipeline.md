@@ -60,6 +60,10 @@ Because submission handlers take the oldest `Prepared` task of their type first,
 a submission that fails permanently is retried every cycle ahead of later ones
 of the same type. Through stage gating it also holds back annotation and
 indexing across all feeds until it is fixed or removed (inferred from code).
+The owner's direction (2026-10-12) is to mark failed submissions as failed,
+remove them from the queue and report them to the administrator, in every
+feed; transient errors still need retries. This is planned in Jira
+(Improvements and Ideas), not implemented.
 
 In conversation, the owner called rejected submissions "failed". The current
 administrator service and portal use the exact status `Rejected`; the reason
