@@ -9,6 +9,19 @@ code, without rewriting unrelated code.
 Code is a book: it should be easy and pleasant to read. Choose the simplest
 code that does the job well.
 
+## Editor settings
+
+Every repository has the same `.editorconfig` and `.gitattributes`, copied from
+[`templates/editorconfig`](../templates/editorconfig) and
+[`templates/gitattributes`](../templates/gitattributes) (2026-10-12): UTF-8
+without BOM, LF line endings (also enforced by Git), a final newline, trimmed
+trailing whitespace, 4 spaces in C# and 2 elsewhere, file-scoped namespaces,
+`var`, no primary constructors. All team IDEs read `.editorconfig`; VS Code
+needs the EditorConfig extension. Change the templates first, then copy them to
+the repositories. Existing files are not reformatted in bulk; editors apply the
+settings to what you change. Two blank lines between groups cannot be expressed
+in `.editorconfig`; follow it by hand.
+
 ## Principles
 
 - **Common sense first.** Follow SOLID and KISS, but UNITE is a relatively small
