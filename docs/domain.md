@@ -227,10 +227,19 @@ The owner explained the following simplification:
      uploads;
    - CNV, SV and CNV profiles: **replaced** per sample;
    - bulk gene expression and protein expression: replaced per sample;
-   - resources (files): **upsert**, because files can be uploaded separately.
+   - resources (files): **upsert**, because files can be uploaded separately;
+   - lists attached to an entity (donor projects, studies and treatments,
+     specimen interventions, drug screenings, radiomics features): **replaced**
+     when provided, kept when omitted (owner-confirmed 2026-10-12).
 
-   Deleting data is not supported and has not been needed: quality control
-   happens before data reaches the portal. Current code differs for CNV and SV,
+   A general switch to "replace" for everything except SM is under
+   consideration (Jira, Improvements and Ideas).
+
+   Deleting individual values or results through submissions is not supported
+   and has not been needed: quality control happens before data reaches the
+   portal. Whole entries (donor, project, image, specimen) can be deleted
+   through the feeds' `DELETE` endpoints, which the portal offers to users with
+   `Data.Write`. Current code differs for CNV and SV,
    which are still merged like SM, and for CNV profiles, which are upserted per
    chromosome arm (tracked in Jira). Single-cell data has not been checked.
 
