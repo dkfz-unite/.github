@@ -148,7 +148,16 @@ documented in the repository's README.
   needs. Prefer arrays for collections that are not modified later.
 - Do not use `.ToList()` or `List<T>` parameters without a reason; accept the
   simplest type (array or `IEnumerable<T>`) that the method needs.
-- Prefer **records** for models, unless something specifically requires a class.
+- Use **records** for data: EF entities (`unite-data`, `unite-identity-data`),
+  request and submission models, index documents, resources and other models.
+  Use classes for things with behavior: services, repositories, controllers,
+  handlers, workers, options. Older models that are classes are converted when
+  touched.
+- In models, plain properties use `{ get; set; }` so binders, converters and
+  EF can assign them. Normalization uses a backing field with a getter
+  (`get => _id?.Trim(); set => _id = value;`).
+- Records compare by value: do not rely on `Equals` or hash sets to identify
+  entities; compare their keys.
 
 ### Request models
 
