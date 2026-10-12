@@ -124,6 +124,16 @@ control (owner, 2026-10-12).
   from: `entity => entity.Name == name`, not `x => x.Name == name`. In general,
   name lambda parameters with understandable words.
 
+### Controllers and routes
+
+- Write explicit lowercase routes (`[Route("api/donor")]`) instead of
+  `[controller]` placeholders.
+- Singular for one entry (`api/project/{id}`), plural for collections and
+  searches (`api/projects`).
+- Attribute style: `[HttpPost]` (no empty `""` route), `[FromBody]Model model`.
+- `[ApiController]` is used only in Composer; leave it as it is for now (owner,
+  2026-10-12). Other services do not add it.
+
 ### Configuration
 
 Settings are environment variables read by option classes in
