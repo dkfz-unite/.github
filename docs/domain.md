@@ -58,6 +58,8 @@ The owner described these visibility rules:
   private project's data. Only administrators assign or remove project users.
 - Data associated with a private project (donors, images, specimens, omics) is
   visible only to users added to that project.
+- Data is opened by making its project public, not by moving donors between
+  projects.
 - Data associated with a public project is visible to any platform user.
   "Public" here does not mean anonymous internet access. The default project
   `Other` is public, so donors submitted without a project are visible to
@@ -228,9 +230,13 @@ The owner explained the following simplification:
    - CNV, SV and CNV profiles: **replaced** per sample;
    - bulk gene expression and protein expression: replaced per sample;
    - resources (files): **upsert**, because files can be uploaded separately;
-   - lists attached to an entity (donor projects, studies and treatments,
-     specimen interventions, drug screenings, radiomics features): **replaced**
-     when provided, kept when omitted (owner-confirmed 2026-10-12).
+   - lists attached to an entity (donor studies and treatments, specimen
+     interventions, drug screenings, radiomics features): **replaced** when
+     provided, kept when omitted (owner-confirmed 2026-10-12);
+   - donor **projects**: **merged**, never replaced; a new donor without
+     projects goes to `Other`, which is removed once the donor gets a real
+     project; omitted projects leave assignments unchanged (owner, 2026-10-12;
+     tracked in Jira).
 
    A general switch to "replace" for everything except SM is under
    consideration (Jira, Improvements and Ideas).
