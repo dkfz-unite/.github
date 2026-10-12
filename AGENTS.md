@@ -120,6 +120,14 @@ UNITE-DEV, epic "Known Issues"), not in repository files.
   area: it records the direction to follow (for example, grid analyses use
   samples, regions and observations like the CNV profiles grid).
 
+## Skills
+
+Repeated procedures are skills in [`skills/`](skills): `log-defect` (record
+defects and ideas in Jira) and `run-service-locally` (replace a container with
+a local run). Follow a skill when the task matches it; when a procedure is
+repeated and not covered, propose a new skill. See
+[Skills](docs/shared-documentation.md#skills).
+
 ## Maintain shared documentation
 
 Keep common rules here, architecture and workflows in `docs/`, and component

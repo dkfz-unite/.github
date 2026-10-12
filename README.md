@@ -30,6 +30,7 @@ Continue with the documents relevant to the task below.
 | Decide how to verify a change | [Development validation](docs/development-validation.md) |
 | Look up or record confirmed defects | Private Jira, see [Track defects](AGENTS.md#track-defects) |
 | Connect a repository or teammate to shared instructions | [Shared documentation setup](docs/shared-documentation.md) |
+| Use or add skills (step-by-step procedures) | [`skills/`](skills), see [Skills](docs/shared-documentation.md#skills) |
 
 The main biomedical model is in
 [unite-data](https://github.com/dkfz-unite/unite-data), starting with
@@ -49,6 +50,8 @@ current code; topic documents identify confirmed behavior and open questions.
 <source-workspace>/
 ├── AGENTS.md               # workspace entry point; template maintained here
 ├── CLAUDE.md               # contains only `@AGENTS.md`, for Claude Code
+├── .claude/skills/         # links to unite-meta/skills (Claude Code)
+├── .agents/skills/         # links to unite-meta/skills (Codex)
 ├── unite-meta/             # this repository; remote name: .github
 ├── unite/
 ├── unite-composer/

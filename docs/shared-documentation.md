@@ -45,6 +45,33 @@ with Codex, an `@` import or Markdown link elsewhere in the shared documents is
 not a substitute for reading the relevant topic documents. See the
 [Claude Code memory documentation](https://docs.claude.com/en/docs/claude-code/memory).
 
+## Skills
+
+Skills are step-by-step procedures for repeated tasks (for example logging a
+defect or running a service locally). Each is a folder with a `SKILL.md` file
+whose frontmatter has a `name` and a `description`; the agent sees only these
+until a task matches the description or the user invokes the skill by name
+(`/name` in Claude Code, `$name` in Codex). Use `AGENTS.md` for what the project
+is and its rules, and skills for procedures.
+
+Shared UNITE skills live in [`skills/`](../skills) in this repository, in the
+format both tools read. Claude Code discovers skills in `.claude/skills/`,
+Codex in `.agents/skills/`; both scan the start folder and its parents up to
+the Git repository root, plus a user folder (`~/.claude/skills`,
+`~/.agents/skills`), and both follow symlinks. The source workspace is not a
+Git repository, so link the skills there:
+
+```sh
+sh unite-meta/scripts/link-skills.sh          # <workspace>/.claude/skills and .agents/skills
+sh unite-meta/scripts/link-skills.sh --user   # also when starting inside a single repository
+```
+
+Keep skills tool-neutral: only `name` and `description` in the frontmatter, no
+tool-specific fields, and no security findings (this repository is public).
+After adding a skill, run the script again to link it. References:
+[Claude Code skills](https://code.claude.com/docs/en/skills),
+[Codex skills](https://developers.openai.com/codex/skills).
+
 ## Team setup: work from the parent workspace
 
 From the directory containing source repositories, clone this repository once:
