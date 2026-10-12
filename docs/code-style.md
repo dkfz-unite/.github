@@ -60,6 +60,27 @@ instance, so async rarely matters for scale (owner, 2026-10-12).
   this.
 - Sync code is fine where everything it calls is sync.
 
+### Errors and exceptions
+
+Write code that does not throw; exceptions are for what the code cannot
+control (owner, 2026-10-12).
+
+- **Expected outcomes** ("not found", "already exists", invalid input) are
+  return values: `null`, `bool` or a result object. The controller maps them to
+  `NotFound()`, `BadRequest()` and so on.
+- **Exceptions** are for unexpected failures and broken invariants. They reach
+  the global `DefaultExceptionFilter`, which logs them (with the stack trace)
+  and returns 500. Do not catch them in controllers just to rethrow or hide
+  them.
+- **Catch a specific exception only to handle it differently**; otherwise do
+  not catch at all. Which exception type was thrown rarely matters when it is
+  outside our control.
+- **Parent code protects child code.** Validate once, as early as possible
+  (request validators, then the service entry point), and let the code below
+  rely on it instead of checking the same thing again and again.
+- In submission processing, invalid data that validation could not catch (e.g.
+  a missing parent specimen) throws, so the task fails.
+
 ### Dependency injection
 
 - Constructor injection.
