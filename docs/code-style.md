@@ -107,6 +107,17 @@ control (owner, 2026-10-12).
   from: `entity => entity.Name == name`, not `x => x.Name == name`. In general,
   name lambda parameters with understandable words.
 
+### Configuration
+
+Settings are environment variables read by option classes in
+`Configuration/Options` (getters, no `IOptions<T>`), registered in DI and
+documented in the repository's README.
+
+- **Required** settings throw a clear error when missing, e.g.
+  `'UNITE_SQL_HOST' environment variable has to be set`.
+- **Optional** settings return a documented default, or `null` when the feature
+  is simply off (e.g. SMTP, LDAP, footer links). Do not make them required.
+
 ### Data access
 
 - Read with `.AsNoTracking()`; update explicitly with
