@@ -43,6 +43,10 @@ code that does the job well.
   5. constructor
   6. public methods
   7. private methods
+- **Two blank lines between groups** (constants, fields, properties,
+  constructor, public methods, private methods), one blank line between
+  members inside a group.
+- Every file ends with a newline.
 - No primary constructors; the team does not use them. Older code in
   `unite-feed-omics` and `unite-indices` still has some, and two files have
   block namespaces; convert them when touching those files.
