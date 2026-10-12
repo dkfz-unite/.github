@@ -43,8 +43,22 @@ code that does the job well.
   5. constructor
   6. public methods
   7. private methods
-- No primary constructors; the team does not use them.
+- No primary constructors; the team does not use them. Older code in
+  `unite-feed-omics` and `unite-indices` still has some, and two files have
+  block namespaces; convert them when touching those files.
 - Use `var` wherever possible.
+
+### Sync and async
+
+There is no rule to make everything async: UNITE has few concurrent users per
+instance, so async rarely matters for scale (owner, 2026-10-12).
+
+- Use async where the library or API is async (EF Core async queries, HTTP
+  clients, Elasticsearch, MongoDB), and then stay async up the call chain.
+- Avoid blocking on tasks with `.Result` or `.Wait()` where it can be avoided
+  without contortions; older code (e.g. the feeds' index creators) still does
+  this.
+- Sync code is fine where everything it calls is sync.
 
 ### Dependency injection
 
