@@ -47,6 +47,11 @@ code that does the job well.
   `unite-feed-omics` and `unite-indices` still has some, and two files have
   block namespaces; convert them when touching those files.
 - Use `var` wherever possible.
+- Nullable reference types are **off** (no `<Nullable>enable</Nullable>`, no
+  `string?` annotations); the annotations cost more than they help here
+  (owner, 2026-10-12). `unite-data-source`, `unite-commands` and Identity's
+  test project still enable them; turn it off when touching those projects.
+  `?` on value types (`int?`, `bool?`) is normal.
 
 ### Sync and async
 
