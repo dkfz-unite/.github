@@ -91,7 +91,7 @@ Current routing in `ExploringHandler` (code-verified 2026-10-07):
 
 | Kind | Types |
 | --- | --- |
-| Direct TSV data | Donor entries/treatments, MR/CT image entries, specimen entries and interventions |
+| Direct TSV data | Donor entries/treatments, MR image entries (CT routed for the future; no feed endpoint yet), specimen entries and interventions |
 | Sample sheets | Omics `*.Sample` types |
 | Result sheets | SM, CNV, CNV profiles, SV, methylation levels, bulk/single-cell RNA expression, protein expression |
 
@@ -139,8 +139,12 @@ modification-time check. A path in either cache is skipped until its entry is
 removed by hand, so a changed file or a failed upload is not retried
 automatically. Rejecting a submission in Composer changes only the SQL task and
 does not touch these caches. Each upload of a sample or resource generates a new
-GUID key appended to `host-files.tsv`. The intended operational procedure for
-re-submission remains to be confirmed with the owner.
+GUID key appended to `host-files.tsv`. Resubmission is done manually by an
+administrator, by removing the path from the cache (owner, 2026-10-12). This is
+fine for omics files, which almost never change; direct data sheets such as
+donors may change and are also handled manually for now. Change detection for
+data sheets and a management UI for Data Source, installable as a portal
+plugin, are planned (Jira, Improvements and Ideas).
 
 ## Feed validation and data review
 

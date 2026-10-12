@@ -80,6 +80,7 @@ is still required for other team members to receive them through Git.
 Onboarding continues through targeted component reviews. Reviewed with the
 owner so far: `unite-composer`, `unite-feed-omics`, `unite-indices`, and
 `unite-analysis` with its local runners (DEG, DEP, DM, PCAM), the portal
-(`unite`), `unite-identity`, and the images, specimens and donors feeds. Worker-token
+(`unite`), `unite-identity`, the images, specimens and donors feeds, and
+`unite-data-source`. Worker-token
 project scope, missing checkouts, the analysis template, access-control checks,
 and operational procedures remain open where noted in the topic documents.
