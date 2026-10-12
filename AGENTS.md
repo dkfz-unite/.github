@@ -128,8 +128,9 @@ Repeated procedures are skills in [`skills/`](skills): `log-defect` (record
 defects and ideas in Jira), `run-service-locally` (replace a container with a
 local run), `publish-library` (version and publish a shared NuGet library,
 then update its consumers), `integrate-data-type` (plan and implement a new
-data type end to end) and `add-analysis-method` (add or rework an analysis
-method with its runner and portal views). Follow a skill when the task matches it; when a procedure is
+data type end to end), `add-analysis-method` (add or rework an analysis
+method with its runner and portal views) and `review-code` (review a change:
+functionality first, then code style). Follow a skill when the task matches it; when a procedure is
 repeated and not covered, propose a new skill. See
 [Skills](docs/shared-documentation.md#skills).
 
