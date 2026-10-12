@@ -127,8 +127,11 @@ defined**. Currently only `unite-data-source` uses the token, issuance is
 administrator-only, and broader service use is not established. Keep this as
 an explicit design decision for private-project work; do not assume all-data,
 public-only, or assigned-project access from the current usage pattern.
-Token management has expiry/revocation/active-status support; how each consuming
-service checks current token/session activity still requires tracing.
+Token management has expiry/revocation/active-status support. The portal checks
+it: for `Worker` tokens its JWT handler asks Identity `api/token/{key}/active`
+(cached for a minute) and drops the `Authorization` header of inactive tokens
+before proxying, so revoked worker tokens are rejected at the portal. The
+services behind it verify only the signature.
 
 The user-claim helper emits `NameIdentifier` with the integer Identity user ID
 (commit `b44712f`, 2026-08-06, on `main` and `dev`), which Composer's and
