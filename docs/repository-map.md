@@ -127,7 +127,7 @@ for password-reset email. Its LDAP identity service checks credentials against
 the organization's directory while UNITE still manages its user/session/JWT
 and permission flow. See
 [Identity providers and SMTP](identity-and-lifecycle.md#identity-providers-and-smtp-mail)
-for current options and the LDAP-only configuration question.
+for current options (LDAP runs alongside the standard login).
 
 | Repository | Responsibility |
 | --- | --- |

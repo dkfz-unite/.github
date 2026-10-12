@@ -36,8 +36,7 @@ See [Search and access](search-and-access.md) for personal project scope.
 
 The owner confirmed that Identity includes both the standard provider and an
 LDAP provider. LDAP authenticates credentials against the organization's LDAP
-server and can be used alongside the standard login; the owner also described
-using it in place of standard login.
+server and is used alongside the standard login.
 
 The reviewed `LdapIdentityService` finds the LDAP user, requires an active
 matching UNITE user for the LDAP provider, and performs an LDAP bind with the
@@ -49,11 +48,13 @@ the presence of LDAP authentication.
 `UNITE_LDAP_ACTIVE` enables the LDAP provider. Other `UNITE_LDAP_*` settings
 cover its label/priority, server host/port, target OU, and directory service
 account. `RootWorker` creates/updates provider records and the active-provider
-endpoint lists them by priority. The current `DefaultProviderOptions.Active`
-returns `true` directly, rather than reading a disable setting. Therefore the
-precise LDAP-only configuration described by the owner remains to be reconciled
-with this checkout; do not invent a `UNITE_DEFAULT_ACTIVE` option or claim
-that standard login can already be disabled through that option.
+endpoint lists them by priority.
+
+LDAP runs **alongside** the standard login; this is the intended setup (owner,
+2026-10-12). The standard provider cannot be disabled or hidden:
+`DefaultProviderOptions.Active` always returns `true` because the root
+administrator exists only in the standard provider and must always be able to
+log in. Do not add an option to disable it.
 
 The repository also contains **`Unite.Post`**, an internal mail project used by
 Identity Web, rather than a separate deployed service. The owner described it
@@ -65,7 +66,11 @@ The `UNITE_SMTP_*` settings configure the host, port, connection/authentication
 options, sender, and credentials. Identity's existing README documents the
 full settings and reset behavior; credentials belong in installation
 configuration, not shared onboarding. SMTP is optional in the current code:
-without a configured host, the password-reset endpoints return 503. unite-env's
+without a configured host, the password-reset endpoints return 503. This is
+the intended behavior (owner, 2026-10-12): without SMTP, users are told that
+reset is unavailable and an administrator recreates the account; other reset
+mechanisms are out of scope for now. Passwords are stored as salted
+`PasswordHasher` hashes; old MD5 hashes are not migrated. unite-env's
 Identity Compose hard-codes `UNITE_SMTP_HOST: ""` and sets no `UNITE_LDAP_*`
 variables, so a standard deployment has neither password reset nor LDAP unless
 that file is edited.
@@ -85,7 +90,9 @@ owner. Do not infer an implemented role/workflow from enum membership alone.
 Endpoint policy and project scope must be checked in their consuming services;
 having a valid signature alone does not establish a caller's authorization.
 
-The root administrator can perform all administrative operations. The owner
+The root administrator can perform all administrative operations; it is the
+only administrator (Identity's admin endpoints require role `Root`, and the
+portal should use the same rule). The owner
 configures its credentials in the installation's `secrets.json`. The reviewed
 `unite-env` deployment script reads `admin.user`/`admin.password` and passes
 them to Compose, which sets Identity's `UNITE_ADMIN_USER`/`UNITE_ADMIN_PASSWORD`. `RootWorker`
@@ -154,13 +161,17 @@ Selected implementation details:
   startup delay, then pauses 24 hours between passes.
 - `UNITE_RETENTION_PERIOD` is in days (a `byte`, so at most 255) and defaults
   to 90. Non-root users whose `LastActive` predates the cutoff are selected for
-  account cleanup. Do not interpret this as a separate 90-day TTL for every
+  account cleanup. `LastActive` is set on creation and updated on token refresh
+  (and should be on login too). An access-list entry that is not registered
+  within the period is removed as well; the owner confirmed this is intended. Do not interpret this as a separate 90-day TTL for every
   analysis or dataset.
 - unite-env's root `.env` sets it to `90` days and Identity's Compose passes
   it through. Until 2026-10-12 it was labeled as months and set to `3`, so
   deployments with that `.env` deleted inactive accounts after 3 days.
 - `AccountService.Delete` invokes user-data cleanup before deleting the user.
   Inactive-account cleanup calls that same account-deletion method.
+  Admin deletion (`DELETE api/user/{id}`) currently removes only the user row,
+  leaving datasets and analyses (tracked in Jira).
 - `UserDataService` removes the user's Mongo dataset/analysis records and
   corresponding SQL analysis tasks, matching record `UserId` against email.
 - The portal's explicit delete-account flow first calls Composer's dataset
@@ -172,7 +183,8 @@ operations. Identity's own cleanup does not delete shared analysis directories,
 so inactivity cleanup leaves analysis files behind. The portal path deletes
 files through Analysis, except CNV-profile directories (no branch in its
 cleanup). Identity also does not touch the domain database's `DataUser` and
-`ProjectUser` rows, which likely remain after account deletion (inferred). The
+`ProjectUser` rows, which remain after account deletion; they should be
+removed too (owner, 2026-10-12; tracked in Jira). The
 owner's intended behavior is complete removal of the account's datasets and
 analyses.
 
@@ -195,11 +207,9 @@ Reviewed locally; `main` links are navigation aids, not immutable revisions.
 - [Account cleanup worker](https://github.com/dkfz-unite/unite-identity/blob/main/Unite.Identity.Web/Workers/AccountWorker.cs), [retention options](https://github.com/dkfz-unite/unite-identity/blob/main/Unite.Identity.Web/Configuration/Options/RetentionOptions.cs), and [session cleanup](https://github.com/dkfz-unite/unite-identity/blob/main/Unite.Identity/Services/SessionService.cs).
 - [Identity saved-data cleanup](https://github.com/dkfz-unite/unite-identity/blob/main/Unite.Identity/Services/UserDataService.cs), [portal account deletion](https://github.com/dkfz-unite/unite/blob/main/Unite.Web/Client/src/identity/api/index.js), and [Analysis delete-all](https://github.com/dkfz-unite/unite-analysis/blob/main/Unite.Analysis.Web/Controllers/AnalysesController.cs).
 
-## Next step and deferred verification
+## Remaining questions
 
-Identity's main responsibilities are documented. Continue with the
-repository/deployment map and how shared onboarding should be loaded across the
-source workspace and installation checkout. Worker-token private-project scope
-is an acknowledged open design decision. LDAP-only provider configuration, token
-revocation propagation, claim/package compatibility, and complete account-file
-cleanup remain for focused component reviews.
+The `unite-identity` repository was reviewed with the owner on 2026-10-12;
+defects found are tracked in Jira. Worker-token private-project scope is an
+acknowledged open design decision. Complete account cleanup (analysis files,
+project memberships) is tracked in Jira.
