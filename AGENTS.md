@@ -115,6 +115,10 @@ UNITE-DEV, epic "Known Issues"), not in repository files.
   describe current behavior neutrally, without pointing at weaknesses.
 - Before changing an area, check Jira for known issues that affect it. Do not fix
   a known issue unless the task asks for it.
+- Planned changes, refactorings and ideas that are not defects go to the epic
+  "Improvements and Ideas" (UND-1059). Check it as well before changing an
+  area: it records the direction to follow (for example, grid analyses use
+  samples, regions and observations like the CNV profiles grid).
 
 ## Maintain shared documentation
 
