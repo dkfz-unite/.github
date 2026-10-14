@@ -31,29 +31,41 @@ to Compose files, configuration, credentials, and other scripts.
 | `applications/` | Portal, Identity, Composer, Analysis, feeds, Ensembl wrappers, scientific runners, and SQL migration applications |
 | `plugins/` (owner's installation checkout) | Optional plugins; gitignored, so absent from a clean clone. Data Source configuration comes from the separate `unite-data-source-env`, cloned here |
 | `scripts/` | Whole-installation configuration, deployment/build orchestration, certificates, and optional management-tool deployment |
-| `config.json` | Local source-workspace path, using `SourceCodeDirectoryPath` from `config_template.json` |
-| `secrets.json` | Installation credentials, based on `secrets_template.json` |
-| `.env` | Initial shared environment configuration; passed only by Identity's scripts so far (see below) |
-| `.env.secrets.template` | Planned replacement for `secrets.json`; not read by any script yet |
+| `.env` | Shared configuration in the repository: instance settings, hosts and ports of PostgreSQL, MySQL, MongoDB and Elasticsearch |
+| `.env.secrets` | Installation credentials, created from `.env.secrets.template`; gitignored |
 | `ssl/` | Portal certificate/key mounted into the portal container |
 
-Most runtime settings live in each component's `docker-compose.yml`. Scripts
-read credentials from `secrets.json` with `jq` and pass variables into Compose
-interpolation for that invocation. They do not generally rewrite the YAML file.
-Build-specific `docker-compose.build.yml` files currently use service-level
-`extends` to inherit the base service and add a local build context/image.
+Runtime settings live in each component's `docker-compose.yml`, which maps
+the variables it needs explicitly from the shared env files, e.g.
+`UNITE_SQL_HOST: ${UNITE_PGSQL_HOST}` or `UNITE_SQL_USER: ${UNITE_PGSQL_USER}`.
+Every script passes both files:
+`docker compose -p unite --env-file ../../.env --env-file ../../.env.secrets ...`.
+Scripts that need a secret themselves (the GitHub token for `git clone`, the
+MySQL and Elasticsearch helper scripts) load it with
+`. ../../.env.secrets` (shell variables only, not exported). Build-specific
+`docker-compose.build.yml` files contain only the build context and local image
+name; the build scripts merge them with the base file
+(`-f docker-compose.yml -f docker-compose.build.yml`).
 
-The owner plans to consolidate common environment variables in `.env` and
-simplify Compose inheritance through file composition. Identity already passes
-`--env-file ../../.env` in its deploy/remote-build/local-build scripts and reads
-instance/retention settings through interpolation. Its credentials still come
-from `secrets.json` via the scripts. Other services have not undergone the same
-general migration. The portal Compose already reads `UNITE_LEGAL_NOTICE_URL`
-and `UNITE_PRIVACY_POLICY_URL` from `.env`, but its scripts do not pass
-`--env-file`, so those values are currently empty (inferred). `.env` also
-defines `UNITE_PGSQL_*`, `UNITE_MYSQL_*`, `UNITE_MONGO_*` and
-`UNITE_ELASTIC_HOST`, which no Compose file uses yet. Treat both improvements as ongoing plans; the onboarding
-does not implement them or assume one uniform configuration mechanism.
+Fixed user names: MySQL's user is always `root` (the image only sets the root
+password) and Elasticsearch's is always `elastic` (the built-in superuser);
+Kibana connects as the built-in `kibana_system` user with the same password,
+set by `programs/elasticsearch/deploy.mgmt.sh`. Compose prefers shell variables
+over env files, so compose files use `UNITE_*` names only (never `USER` or
+`PASSWORD`, which the shell defines).
+
+Each application's `deploy.sh`, `build.remote.sh` and `build.local.sh` is a
+one-line call of the shared scripts in `scripts/app/` with a service key
+(`sh ../../scripts/app/build.remote.sh composer "$1"`). Display name, local
+path, repository URL and optional default branch of each service are in
+`.env.services`; `.env.services.local` (gitignored) overrides single services,
+e.g. to build from a fork, another folder or a branch. The GitHub token is sent
+to `github.com` as an HTTP header, not as part of the clone URL. Plugins use
+the Compose project `unite-plugins`.
+
+This is on branch `compose` in `unite-env` and `unite-data-source-env`
+(2026-10-12), replacing `secrets.json` read with `jq` and service-level
+`extends`. Moving secrets to Docker secrets is planned.
 
 ## Initial installation
 
@@ -61,10 +73,11 @@ The owner can run the complete platform locally by cloning `unite-env` and
 following its [installation README](https://github.com/dkfz-unite/unite-env/blob/main/README.md).
 The documented sequence is:
 
-1. Prepare installation configuration and `secrets.json`. The owner normally
-   keeps development defaults locally; actual credentials must not be copied
-   into shared onboarding. Set `SourceCodeDirectoryPath` if using local builds.
-   Identity's current `.env` settings also apply to this checkout.
+1. Create `.env.secrets` from `.env.secrets.template` and review `.env`. The
+   owner normally keeps development defaults locally; actual credentials must
+   not be copied into shared onboarding. For local builds, set
+   `UNITE_SOURCE_PATH_PREFIX` once in the shell profile to the folder with the source
+   repositories; `build.local.sh` stops with a message if it is missing.
 2. From `scripts/`, run the platform-specific configuration script,
    `sh configure.macos.sh` or `sh configure.linux.sh`. Both create Docker network
    `unite`; the Linux script also configures `vm.max_map_count` and network MTU.
@@ -102,7 +115,7 @@ Run the following commands inside `applications/<service>/`:
 | `sh deploy.sh` | Pull the published GHCR image and start/update the service |
 | `sh build.remote.sh` | Clone remote source, normally `main`, build an image locally, and start/update the service |
 | `sh build.remote.sh dev` | Clone the selected branch where the script supports a branch argument, build locally, and start/update the service |
-| `sh build.local.sh` | Copy the local repository's contents from `SourceCodeDirectoryPath`, build locally, and start/update the service |
+| `sh build.local.sh` | Copy the local repository's contents from `$UNITE_SOURCE_PATH_PREFIX`, build locally, and start/update the service |
 
 The filename is `build.remote.sh`, not `build.remove.sh`. The scripts are not
 build-only operations: they also run `docker compose ... up -d --build`.
@@ -284,8 +297,7 @@ that the reviewed `scripts/deploy.sh` starts Data Source. Its responsibility is 
 ## Code navigation and next discussion
 
 - [Whole-platform deploy](https://github.com/dkfz-unite/unite-env/blob/main/scripts/deploy.sh) and [smaller application update](https://github.com/dkfz-unite/unite-env/blob/main/scripts/deploy.apps.sh).
-- [Source-path template](https://github.com/dkfz-unite/unite-env/blob/main/config_template.json).
-- Composer's [deploy](https://github.com/dkfz-unite/unite-env/blob/main/applications/unite-composer/deploy.sh), [remote build](https://github.com/dkfz-unite/unite-env/blob/main/applications/unite-composer/build.remote.sh), [local build](https://github.com/dkfz-unite/unite-env/blob/main/applications/unite-composer/build.local.sh), and [Compose inheritance](https://github.com/dkfz-unite/unite-env/blob/main/applications/unite-composer/docker-compose.build.yml) illustrate the main pattern.
+- Composer's [deploy](https://github.com/dkfz-unite/unite-env/blob/main/applications/unite-composer/deploy.sh), [remote build](https://github.com/dkfz-unite/unite-env/blob/main/applications/unite-composer/build.remote.sh), [local build](https://github.com/dkfz-unite/unite-env/blob/main/applications/unite-composer/build.local.sh), and [build override](https://github.com/dkfz-unite/unite-env/blob/main/applications/unite-composer/docker-compose.build.yml) illustrate the main pattern.
 - [Identity deployment](https://github.com/dkfz-unite/unite-env/blob/main/applications/unite-identity/deploy.sh) and [configuration](https://github.com/dkfz-unite/unite-env/blob/main/applications/unite-identity/docker-compose.yml) illustrate the initial `.env` migration.
 - Composer's [Docker publication workflow](https://github.com/dkfz-unite/unite-composer/blob/main/.github/workflows/docker-images.yml).
 - Composer's [package and commented local-project references](https://github.com/dkfz-unite/unite-composer/blob/main/Unite.Composer/Unite.Composer.csproj).

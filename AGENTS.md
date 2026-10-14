@@ -55,8 +55,8 @@ relative to this repository, even when working in a sibling checkout.
   answers with the owner before writing code.
 - Scientific analyses use Prepare/Process and method-specific file contracts.
   Busy runners are retried; computation failures require manual restart.
-- `unite-jobs`, genome liftover, shared HTTP-client extraction, and wider
-  `.env`/Compose refactoring are plans or drafts, not established replacements
+- `unite-jobs`, genome liftover, shared HTTP-client extraction, and Docker
+  secrets are plans or drafts, not established replacements
   for the current flows. Check each topic document for details and exceptions.
 
 ## Work with evidence and shared contracts

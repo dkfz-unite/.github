@@ -93,9 +93,9 @@ having a valid signature alone does not establish a caller's authorization.
 The root administrator can perform all administrative operations; it is the
 only administrator (Identity's admin endpoints require role `Root`, and the
 portal should use the same rule). The owner
-configures its credentials in the installation's `secrets.json`. The reviewed
-`unite-env` deployment script reads `admin.user`/`admin.password` and passes
-them to Compose, which sets Identity's `UNITE_ADMIN_USER`/`UNITE_ADMIN_PASSWORD`. `RootWorker`
+configures its credentials in the installation's `.env.secrets`
+(`UNITE_ADMIN_USER`/`UNITE_ADMIN_PASSWORD`), which Identity's Compose passes
+to the service. `RootWorker`
 creates the configured root account if it is absent, with the `Root` role and
 root permission set. This bootstrap does not reset an existing account on each
 startup. Root is excluded from inactivity cleanup and self-deletion.

@@ -141,7 +141,7 @@ This last repository resolves the previously unclear plugin location: the owner
 uses `unite-env/plugins/unite-data-source`, while a clean local `unite-env` tree
 does not contain that directory. The separate `unite-data-source-env` checkout
 contains the plugin's Compose and deploy/local-build/remote-build scripts.
-Its scripts read installation `config.json`/`secrets.json` two levels above,
+Its scripts read installation `.env`/`.env.secrets` (and `UNITE_SOURCE_PATH_PREFIX` for local builds) two levels above,
 matching a `plugins/<plugin>/` placement.
 
 The reviewed plugin Compose mounts `config/`, tracking `cache/`, and host `/mnt`;
