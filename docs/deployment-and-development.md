@@ -31,15 +31,18 @@ to Compose files, configuration, credentials, and other scripts.
 | `applications/` | Portal, Identity, Composer, Analysis, feeds, Ensembl wrappers, scientific runners, and SQL migration applications |
 | `plugins/` (owner's installation checkout) | Optional plugins; gitignored, so absent from a clean clone. Data Source configuration comes from the separate `unite-data-source-env`, cloned here |
 | `scripts/` | Whole-installation configuration, deployment/build orchestration, certificates, and optional management-tool deployment |
-| `.env` | Shared configuration in the repository: instance settings, hosts and ports of PostgreSQL, MySQL, MongoDB and Elasticsearch |
+| `.env` | Shared configuration in the repository: instance settings, hosts and ports of PostgreSQL, MySQL, MongoDB and Elasticsearch, source locations of the services for the build scripts |
+| `.env.local` | Optional installation- or machine-specific overrides of `.env` (e.g. host, public flag, genome build, local source folder); gitignored |
 | `.env.secrets` | Installation credentials, created from `.env.secrets.template`; gitignored |
 | `ssl/` | Portal certificate/key mounted into the portal container |
 
 Runtime settings live in each component's `docker-compose.yml`, which maps
 the variables it needs explicitly from the shared env files, e.g.
 `UNITE_SQL_HOST: ${UNITE_PGSQL_HOST}` or `UNITE_SQL_USER: ${UNITE_PGSQL_USER}`.
-Every script passes both files:
-`docker compose -p unite --env-file ../../.env --env-file ../../.env.secrets ...`.
+Every script passes the files in this order, `.env.local` only if it exists:
+`docker compose -p unite --env-file ../../.env --env-file ../../.env.local --env-file ../../.env.secrets ...`.
+`.env` stays unchanged in an installation checkout; values that differ for the
+installation go to `.env.local`, which overrides them.
 Scripts that need a secret themselves (the GitHub token for `git clone`, the
 MySQL and Elasticsearch helper scripts) load it with
 `. ../../.env.secrets` (shell variables only, not exported). Build-specific
@@ -57,9 +60,11 @@ over env files, so compose files use `UNITE_*` names only (never `USER` or
 Each application's `deploy.sh`, `build.remote.sh` and `build.local.sh` is a
 one-line call of the shared scripts in `scripts/app/` with a service key
 (`sh ../../scripts/app/build.remote.sh composer "$1"`). Display name, local
-path, repository URL and optional default branch of each service are in
-`.env.services`; `.env.services.local` (gitignored) overrides single services,
-e.g. to build from a fork, another folder or a branch. The GitHub token is sent
+path, repository URL and optional default branch of each service are in the
+"Service sources" section of `.env`; `.env.local` overrides single services,
+e.g. to build from a fork, another folder or a branch. The shared scripts read
+`.env.local` both before and after `.env`, so `UNITE_SOURCE_PATH_PREFIX` set
+there is used for the source paths in `.env`. The GitHub token is sent
 to `github.com` as an HTTP header, not as part of the clone URL. Plugins use
 the Compose project `unite-plugins`.
 
@@ -73,18 +78,20 @@ The owner can run the complete platform locally by cloning `unite-env` and
 following its [installation README](https://github.com/dkfz-unite/unite-env/blob/main/README.md).
 The documented sequence is:
 
-1. Create `.env.secrets` from `.env.secrets.template` and review `.env`. The
+1. Create `.env.secrets` from `.env.secrets.template`, review `.env`, and put
+   the values that differ for the installation into `.env.local`. The
    owner normally keeps development defaults locally; actual credentials must
    not be copied into shared onboarding. For local builds, set
-   `UNITE_SOURCE_PATH_PREFIX` once in the shell profile to the folder with the source
-   repositories; `build.local.sh` stops with a message if it is missing.
+   `UNITE_SOURCE_PATH_PREFIX` in `.env.local` (or export it in the shell profile)
+   to the folder with the source repositories; `build.local.sh` stops with a
+   message if the source folder is missing.
 2. From `scripts/`, run the platform-specific configuration script,
    `sh configure.macos.sh` or `sh configure.linux.sh`. Both create Docker network
    `unite`; the Linux script also configures `vm.max_map_count` and network MTU.
 3. Provide a certificate/key in `ssl/` or use `sh generate-ssl.sh` from
    `scripts/` for a development certificate, following the README.
-4. Choose the installation's genome build in `UNITE_GENOME_BUILD` in `.env`
-   (`GRCh37`, the default, or `GRCh38`). Compose passes it to the omics feed
+4. Choose the installation's genome build in `UNITE_GENOME_BUILD`
+   (`GRCh37`, the default from `.env`, or `GRCh38` set in `.env.local`). Compose passes it to the omics feed
    and Composer, and the Ensembl cache scripts download the reference data of
    that build. Reference-data compatibility is installation-specific; do not
    treat it as a per-request switch.
@@ -255,7 +262,7 @@ The owner performs these additional setup steps separately:
   type published since release 114. The local `data/` directory is mounted as
   container `/cache`.
 
-The scripts read the genome build from `.env` through `scripts/ensembl.sh`,
+The scripts read the genome build from `.env` and `.env.local` through `scripts/ensembl.sh`,
 which also fixes Ensembl release 116. Release 116 is the last release published
 on `ftp.ensembl.org` with MySQL dumps and VEP caches; newer Ensembl data is
 published only on the new Ensembl platform (`ftp.ebi.ac.uk/pub/ensemblorganisms/`)

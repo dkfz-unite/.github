@@ -201,7 +201,7 @@ their containing directories.
 
 The full deployment uses `sh deploy.sh` from `scripts/`; component directories
 support published-image deployment, building a remote branch, or building copied
-local source from the folder in `UNITE_SOURCE_PATH_PREFIX` (set in the shell profile). During local development,
+local source from the folder in `UNITE_SOURCE_PATH_PREFIX` (set in `.env.local` or the shell profile). During local development,
 libraries can be connected through sibling `ProjectReference` entries; Docker
 verification uses newly published NuGet versions from library `main` pushes.
 Ensembl database and VEP cache setup are separate steps. Servers are managed through SSH, with portal

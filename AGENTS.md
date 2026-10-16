@@ -23,6 +23,16 @@ relative to this repository, even when working in a sibling checkout.
   `unite-meta` is the recommended local name of the organization's `.github`
   repository. Development and installation `unite-env` checkouts may differ.
 
+## Agree before implementing
+
+- Before doing or proposing something, gather the information it depends on
+  first: code, documentation, and external sources.
+- When something is unclear or information is missing, ask the owner. When a
+  conclusion rests on an assumption, ask the owner to confirm it rather than
+  acting on it.
+- Start implementing only when everything is clear and the owner has agreed to
+  the plan. Present the plan briefly; the owner asks for details when needed.
+
 ## Git workflow
 
 - `main` is the release branch. Pushes to `main` run GitHub Actions: service
@@ -37,8 +47,9 @@ relative to this repository, even when working in a sibling checkout.
   branch means active or unmerged work, or a branch not switched back after a
   merge; ask before switching. To compare with what is released, use
   `origin/main`; for current development, use `origin/dev`.
-- Agents may create local branches and commit to them. Pushing and pull
-  requests are done by the owner. Do not push or open pull requests.
+- Agents may create local branches. Leave changes uncommitted in the working
+  tree and commit only when the owner asks. Pushing and pull requests are done
+  by the owner. Do not push or open pull requests.
 
 ## Preserve the project model
 
