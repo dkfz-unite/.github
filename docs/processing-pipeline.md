@@ -203,10 +203,9 @@ they are not the general integrated-data search/read interface.
 ## Ensembl wrappers
 
 - **unite-ensembl-vep:** custom web wrapper around Ensembl VEP with local
-  file-based Ensembl reference cache data. The owner aims to update releases
-  when practical; this does not establish that a deployment is on the latest
-  version. The reviewed Dockerfile pins `release_113.4`; deployed versions and
-  the update procedure remain to be reviewed. This reference cache differs
+  file-based Ensembl reference cache data. The Dockerfile pins
+  `release_116.3`, matching the release 116 cache downloaded by unite-env;
+  116 is the last Ensembl release published in this format. This reference cache differs
   from data-source path caches or Mongo submission staging.
 - **unite-ensembl-data:** custom API over a downloaded Ensembl database on
   legacy MySQL. The owner confirmed only required parts/tables are populated;

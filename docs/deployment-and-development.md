@@ -83,10 +83,11 @@ The documented sequence is:
    `unite`; the Linux script also configures `vm.max_map_count` and network MTU.
 3. Provide a certificate/key in `ssl/` or use `sh generate-ssl.sh` from
    `scripts/` for a development certificate, following the README.
-4. Choose the installation's genome build and matching Ensembl reference data.
-   The README describes GRCh37 as the default and GRCh38 configuration through
-   the omics feed's `UNITE_GENOME_BUILD`. Reference-data compatibility is
-   installation-specific; do not treat it as a per-request switch.
+4. Choose the installation's genome build in `UNITE_GENOME_BUILD` in `.env`
+   (`GRCh37`, the default, or `GRCh38`). Compose passes it to the omics feed
+   and Composer, and the Ensembl cache scripts download the reference data of
+   that build. Reference-data compatibility is installation-specific; do not
+   treat it as a per-request switch.
 5. From `scripts/`, run `sh deploy.sh` to deploy programs and applications.
 6. Optionally run `sh deploy.mgmt.sh` from `scripts/` for management UIs.
 7. Separately download/extract/import Ensembl data and download/extract VEP
@@ -243,22 +244,25 @@ exercise different code versions.
 Deploying the containers does not populate their reference data automatically.
 The owner performs these additional setup steps separately:
 
-- From `programs/mysql/`, use the matching
-  `sh download-cache-grch37.sh`, `sh extract-cache-grch37.sh`, and
-  `sh install-cache-grch37.sh` commands, or their `grch38` counterparts.
-  Download selects required Ensembl core tables; install imports schema/data
-  into the local MySQL server. Compose currently pins `mysql:5.6` on
+- From `programs/mysql/`, run `sh download-cache.sh`, `sh extract-cache.sh`,
+  and `sh install-cache.sh`. Download selects required Ensembl core tables;
+  install imports schema/data into the local MySQL server
+  (`homo_sapiens_core_116_37` or `homo_sapiens_core_116_38`). Both builds have
+  the same core schema and tables in release 116. Compose currently pins `mysql:5.6` on
   `linux/amd64` and mounts `cache/` separately from the database data volume.
-- From `applications/unite-ensembl-vep/`, use the matching
-  `sh download-cache-grch37.sh` and `sh extract-cache-grch37.sh` commands, or
-  their `grch38` counterparts. The local `data/` directory is mounted as
+- From `applications/unite-ensembl-vep/`, run `sh download-cache.sh` and
+  `sh extract-cache.sh`. They download the indexed VEP cache, the only cache
+  type published since release 114. The local `data/` directory is mounted as
   container `/cache`.
 
-Both the GRCh37 and GRCh38 download/import scripts use Ensembl release 113. This
-records their current configuration, not a claim about the newest available
-release. Reference downloads/extraction persist on disk across normal service
-deployments. Check the matching genome build, wrapper version, cache version,
-and installation location when updating them.
+The scripts read the genome build from `.env` through `scripts/ensembl.sh`,
+which also fixes Ensembl release 116. Release 116 is the last release published
+on `ftp.ensembl.org` with MySQL dumps and VEP caches; newer Ensembl data is
+published only on the new Ensembl platform (`ftp.ebi.ac.uk/pub/ensemblorganisms/`)
+as gene annotation, sequence and variation files. The release is therefore
+hardcoded in the scripts and in Ensembl Data, and the VEP image is pinned to
+`release_116.3`; the VEP image and cache releases must match. Reference
+downloads/extraction persist on disk across normal service deployments.
 
 ## Local versus server access
 
@@ -302,7 +306,7 @@ that the reviewed `scripts/deploy.sh` starts Data Source. Its responsibility is 
 - Composer's [Docker publication workflow](https://github.com/dkfz-unite/unite-composer/blob/main/.github/workflows/docker-images.yml).
 - Composer's [package and commented local-project references](https://github.com/dkfz-unite/unite-composer/blob/main/Unite.Composer/Unite.Composer.csproj).
 - [unite-data NuGet publication](https://github.com/dkfz-unite/unite-data/blob/main/.github/workflows/publish-nuget.yml) and [unite-indices NuGet publication](https://github.com/dkfz-unite/unite-indices/blob/main/.github/workflows/publish-nuget.yml).
-- [MySQL installation](https://github.com/dkfz-unite/unite-env/blob/main/programs/mysql/README.md) and [VEP cache download](https://github.com/dkfz-unite/unite-env/blob/main/applications/unite-ensembl-vep/download-cache-grch38.sh).
+- [MySQL installation](https://github.com/dkfz-unite/unite-env/blob/main/programs/mysql/README.md) and [VEP cache download](https://github.com/dkfz-unite/unite-env/blob/main/applications/unite-ensembl-vep/download-cache.sh).
 
 The main installation/deployment and shared-library development workflows are
 understood. The model/mapping split and SQL migration workflow are covered in

@@ -179,7 +179,8 @@ would incorrectly narrow the category.
 ## Genome build
 
 The genome build (GRCh37 or GRCh38) is a property of the portal instance
-(`UNITE_GENOME_BUILD` in the omics feed). It determines which Ensembl VEP and
+(`UNITE_GENOME_BUILD` in unite-env `.env`, read by the omics feed and Composer).
+It determines which Ensembl VEP and
 Ensembl Data builds are installed, and therefore which build annotation and
 indexing use. Owner-confirmed rules (2026-10-07):
 
