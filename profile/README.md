@@ -111,11 +111,6 @@ deletion paths. The shared `UNITE_API_KEY` signs/verifies JWTs. See
 
 ## Work in progress and planned extensions
 
-- Private projects are under development. The intended rule limits access to
-  associated data to project members. A donor assigned to any public project
-  is visible even if it also belongs to a private project; access across several
-  private projects remains to be clarified.
-- Worker-token scope for private projects is not yet defined.
 - RNA gene fusions are planned.
 - Non-human donors are a possible future extension, not a current capability
   established by this documentation.
